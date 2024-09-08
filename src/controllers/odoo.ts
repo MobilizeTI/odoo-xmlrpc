@@ -20,6 +20,7 @@ export class Odoo {
   private _password: string;
   
   constructor(host: string, port = 443, secure: boolean = false) {
+    
     this._client = secure ? createSecureClient({
       host: host,
       port: port
