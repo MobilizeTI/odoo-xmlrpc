@@ -7,7 +7,7 @@
  * Check LICENSE file in project root folder.
  */
 import { IServerVersion, MODEL_TYPE } from "../models/odoo.types";
-import { createSecureClient, Client } from "xmlrpc";
+import { createSecureClient, Client, createClient } from "xmlrpc";
 import { ERRORS } from "../constants/errors.enum";
 import { Contacts } from "./contacts.odoo";
 import { Employees } from "./employees.odoo";
@@ -18,12 +18,13 @@ export class Odoo {
   private _uid: number;
   private _db: string;
   private _password: string;
-
-  constructor(host: string, port = 443) {
-    this._client = createSecureClient({
+  
+  constructor(host: string, port = 443, secure: boolean = false) {
+    this._client = secure ? createSecureClient({
       host: host,
       port: port
-    });
+    }) : createClient({ host: host, port: port })
+
   }
 
   private _commonPath() {
